@@ -8,12 +8,12 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="340sp"
+        android:layout_width="360sp"
+        android:layout_height="360sp"
         android:layout_margin="8dp"
-        android:scaleType="fitXY"
         android:layout_centerHorizontal="true"
         android:id="@+id/image"
+        android:background="@drawable/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -39,40 +39,17 @@
         app:layout_constraintTop_toBottomOf="@id/textclass"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <Button
-        android:id="@+id/gallery"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Gallery"
-        android:fontFamily="sans-serif-black"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/guideline2"/>
 
-    <Button
-        android:id="@+id/camera"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Camera"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-black"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/guideline2"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addphoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="4dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_add_a_photo_24"
+        android:backgroundTint="@color/primary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
