@@ -4,9 +4,11 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import com.example.kishantech.databinding.ActivityMainBinding
 import com.example.kishantech.ml.Model
@@ -27,9 +29,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //image processor
-//        var imageProcessor=ImageProcessor.Builder()
-//            .add(ResizeOp(256, 256, ResizeOp.ResizeMethod.BILINEAR))
-//            .build()
+        var imageProcessor=ImageProcessor.Builder()
+            .add(ResizeOp(256, 256, ResizeOp.ResizeMethod.BILINEAR))
+            .build()
         binding.addphoto.setOnClickListener{
             ImagePicker.with(this)
                 .crop()	    			//Crop image(Optional), Check Customization for more option
@@ -38,6 +40,18 @@ class MainActivity : AppCompatActivity() {
                 .start()
         }
     }
+
+    fun resizeBitmap(originalBitmap: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
+        val resizedBitmap = Bitmap.createBitmap(newWidth, newHeight, originalBitmap.config)
+        val canvas = Canvas(resizedBitmap)
+        val matrix = Matrix()
+        val scaleX = newWidth.toFloat() / originalBitmap.width
+        val scaleY = newHeight.toFloat() / originalBitmap.height
+        matrix.setScale(scaleX, scaleY)
+        canvas.drawBitmap(originalBitmap, matrix, null)
+        return resizedBitmap
+    }
+
     private fun classifyImage(bitmap: Bitmap) {
         val model = Model.newInstance(applicationContext)
 
@@ -75,8 +89,14 @@ class MainActivity : AppCompatActivity() {
                 maxPos = i
             }
         }
-        val classes = arrayOf("potato_Early_blight", "potato_healthy", "potato_late_blight")
-        binding.result1.text = classes[maxPos]
+        Log.v("Confidence", maxConfidence.toString())
+        if(maxConfidence>=0.9999999 || maxConfidence<=0.95){
+            binding.result1.text = "Incorrect Object"
+        }
+        else{
+            val classes = arrayOf("potato_Early_blight", "potato_healthy", "potato_late_blight")
+            binding.result1.text = classes[maxPos]
+        }
     // Releases model resources if no longer used.
         model.close()
     }
@@ -85,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         var uri=data?.data
         bitmap=MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+        bitmap=resizeBitmap(bitmap, 256, 256)
         binding.image.setImageBitmap(bitmap)
         //val bitmap=getBitmapfromview(binding.image)
         classifyImage(bitmap)
