@@ -8,10 +8,12 @@ import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.kishantech.databinding.ActivityMainBinding
-import com.example.kishantech.ml.Model
+import com.example.kishantech.ml.Model128
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -28,6 +30,15 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.linLayoutEarly.visibility=View.GONE
+        binding.linLayoutLate.visibility=View.GONE
+
+        //hyperlink
+        binding.chlorothalonil.movementMethod=LinkMovementMethod.getInstance()
+        binding.mancozeb.movementMethod=LinkMovementMethod.getInstance()
+        binding.azoxystrobin.movementMethod=LinkMovementMethod.getInstance()
+        binding.fluopicolide.movementMethod=LinkMovementMethod.getInstance()
+        binding.metalaxyl.movementMethod=LinkMovementMethod.getInstance()
         //image processor
         var imageProcessor=ImageProcessor.Builder()
             .add(ResizeOp(256, 256, ResizeOp.ResizeMethod.BILINEAR))
@@ -53,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun classifyImage(bitmap: Bitmap) {
-        val model = Model.newInstance(applicationContext)
+        val model = Model128.newInstance(applicationContext)
 
     // Creates inputs for reference.
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 256, 256, 3), DataType.FLOAT32)
@@ -90,12 +101,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
         Log.v("Confidence", maxConfidence.toString())
-        if(maxConfidence>=0.9999999 || maxConfidence<=0.95){
+        if(maxConfidence>=0.9999990 || maxConfidence<=0.95){
             binding.result1.text = "Incorrect Object"
+            binding.linLayoutLate.visibility=View.GONE
+            binding.linLayoutEarly.visibility=View.GONE
+            Toast.makeText(this, "Please upload the image again", Toast.LENGTH_LONG).show()
         }
         else{
             val classes = arrayOf("potato_Early_blight", "potato_healthy", "potato_late_blight")
             binding.result1.text = classes[maxPos]
+            if(maxPos==0){
+                binding.linLayoutLate.visibility=View.GONE
+                binding.linLayoutEarly.visibility=View.VISIBLE
+            }
+            else if(maxPos==2){
+                binding.linLayoutEarly.visibility=View.GONE
+                binding.linLayoutLate.visibility=View.VISIBLE
+            }
+            else{
+                binding.linLayoutLate.visibility=View.GONE
+                binding.linLayoutEarly.visibility=View.GONE
+            }
         }
     // Releases model resources if no longer used.
         model.close()

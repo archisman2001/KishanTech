@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">KishanTech</string>
+    <string name="chlorothalonil">
+        Chlorothalonil \u0020\u0020\u0020\u0020<a href = "https://www.google.com/search?q=chlorothalonil+fungicide">know more.. </a>
+    </string>
+
+    <string name="mancozeb">
+        Mancozeb \u0020\u0020\u0020\u0020<a href = "https://www.google.com/search?q=mancozeb+fungicide">know more.. </a>
+    </string>
+
+    <string name="azoxystrobin">
+        Azoxystrobin \u0020\u0020\u0020\u0020<a href = "https://www.google.com/search?q=azoxystrobin+fungicide">know more.. </a>
+    </string>
+    <string name="metalaxyl">
+        Metalaxyl-M \u0020\u0020\u0020\u0020<a href = "https://www.google.com/search?q=metalaxyl-m+fungicide">know more.. </a>
+    </string>
+    <string name="fluopicolide">
+        Fluopicolide \u0020\u0020\u0020\u0020<a href = "https://www.google.com/search?q=fluopicolide+fungicide">know more.. </a>
+    </string>
 </resources>
