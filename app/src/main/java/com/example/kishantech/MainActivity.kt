@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             binding.result1.text = classes[maxPos]
             if(maxPos==0){
                 binding.linLayoutLate.visibility=View.GONE
-                binding.linLayoutEarly.visibility=View.VISIBLE
+                binding.linLayoutEarly.visibility=View .VISIBLE
             }
             else if(maxPos==2){
                 binding.linLayoutEarly.visibility=View.GONE
@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() {
         bitmap=MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
         bitmap=resizeBitmap(bitmap, 256, 256)
         binding.image.setImageBitmap(bitmap)
+        binding.textclass.text="Classified as:"
         //val bitmap=getBitmapfromview(binding.image)
         classifyImage(bitmap)
     }
